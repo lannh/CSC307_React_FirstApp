@@ -1,6 +1,7 @@
-import React, {useState} from "react";
 import Table from "./Table";
 import Form from "./Form";
+import axios from "axios";
+import React, {useState, useEffect} from "react";
 
 function MyApp() 
 {
@@ -18,6 +19,25 @@ function MyApp()
   {
     setCharacters([...characters,person]);
   }
+
+  async function fetchAll()
+  {
+    try {
+      const response = await axios.get('http://localhost:5001/users');
+      return response.data.users_list;
+    }
+    catch(error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  useEffect(() => {
+    fetchAll().then( result => {
+      if(result)
+        setCharacters(result);
+    });
+  }, [] );
 
   return (
     <div className="container">
