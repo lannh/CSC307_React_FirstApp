@@ -12,7 +12,14 @@ function MyApp()
     const updated = characters.filter((character,i) => {
       return i!== index
     });
-    setCharacters(updated);
+    /*setCharacters(updated);*/
+
+    const userToDel = characters.find((character, i) => i===index);
+    
+    makeDelCall(userToDel.id).then( result => {
+      if(result && result.status === 204)
+        setCharacters(updated);
+    });
   }
 
   function updateList(person)
@@ -50,6 +57,18 @@ function MyApp()
       return response;
     }
     catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  async function makeDelCall(id)
+  {
+    try {
+      const response = await axios.delete('http://localhost:5001/users/'+id)
+      return response;
+    }
+    catch(error) {
       console.log(error);
       return false;
     }
