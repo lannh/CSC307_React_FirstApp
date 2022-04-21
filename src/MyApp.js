@@ -16,7 +16,7 @@ function MyApp()
 
     const userToDel = characters.find((character, i) => i===index);
     
-    makeDelCall(userToDel.id).then( result => {
+    makeDelCall(userToDel._id).then( result => {
       if(result && result.status === 204)
         setCharacters(updated);
     });
